@@ -1,0 +1,1 @@
+web: gunicorn accounts2.wsgi --log-file
