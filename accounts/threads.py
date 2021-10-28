@@ -19,7 +19,7 @@ class send_verification_link(threading.Thread):
             email_from = settings.EMAIL_HOST_USER
             print("Email send started")
          
-            send_mail(subject , message ,email_from ,[self.email])
+            send_mail(subject , message ,email_from ,[self.email], fail_silently=False)
             print("Email send finished")
         except Exception as e:
             print(e)
