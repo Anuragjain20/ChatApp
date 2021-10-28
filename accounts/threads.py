@@ -18,7 +18,7 @@ class send_verification_link(threading.Thread):
             message = f"The link to verify your account  {Web_address}account/verify/{token} \nIts valid only for 5 mins."
             email_from = settings.EMAIL_HOST_USER
             print("Email send started")
-            print(email_from)
+         
             send_mail(subject , message ,email_from ,[self.email])
             print("Email send finished")
         except Exception as e:
