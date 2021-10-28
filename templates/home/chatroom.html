@@ -1,0 +1,120 @@
+{% extends "base.html"%} {% block content %}
+
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+
+            <div class="column is-6  is-offset-3 mb-6">
+                <section class="hero is-link">
+                    <div class="hero-body">
+                        <p class="title">
+                            Chat
+                        </p>
+                        <p class="subtitle">
+                            {{room_name}}
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="column is-6 is-offset-3">
+                <div class="box">
+
+                    <div id="chat-messages" style="max-height: 300px; overflow-y: scroll;">
+
+                        {% if reply %} {% for message in reply %}
+
+                        <b>{{message.sender}}</b>: {{message.message}}<br> {% endfor %} {% endif %}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Message" id="chat-message-input">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <input type="submit" value="submit" class="button is-info" id="chat-message-submit" onclick="sendMessage()">
+                    </div>
+                </div>
+
+                <small class="has-text-grey-light">Your username: <span id = "usernamedisplay"></span></small>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var url = 'ws://127.0.0.1:8000/rooms/{{room_name}}/'
+        var socket = new WebSocket(url)
+
+        socket.onopen = function(e) {
+
+
+
+
+            console.log('Connected')
+
+        }
+        socket.onmessage = function(e) {
+            var data = JSON.parse(e.data)
+            if (data.reply.status) {
+                updateUIOnlie(data.reply.user)
+            }
+            console.log(data)
+            if (data.reply && data.reply.sender != getName()) {
+                updateUI(data.reply.sender, data.reply.message)
+            }
+        }
+
+        socket.onclose = function(e) {
+            console.log('disconnect')
+        }
+
+        function updateUI(name, message) {
+            var element = document.getElementById('chat-messages')
+            element.innerHTML += `<b>${name}</b>: ${message}<br>`
+        }
+
+        function getName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('name');
+        }
+        document.getElementById('usernamedisplay').innerHTML = getName();
+
+        function sendMessage() {
+            var element = document.getElementById('chat-message-input').value
+            socket.send(JSON.stringify({
+                'message': element,
+                'sender': getName(),
+
+            }))
+            document.getElementById('chat-message-input').value = ''
+
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+    {% endblock %}

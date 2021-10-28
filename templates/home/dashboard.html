@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container my-5">
+    {% for room in rooms %}
+    <ul class="list-group mx-auto my-auto my-5">
+        <li class="list-group-item text-center">{{room.room_name}}</li>
+
+    </ul>
+    {% endfor %}
+
+    <br>
+
+
+    <form class="form-inline" method="post">
+        {% csrf_token %}
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="room_name" class="sr-only">Room Name</label>
+            <input type="text" class="form-control" id="room_name" name="room_name">
+            <br>
+            <button type="submit" class="btn btn-primary mb-2">Add</button>
+        </div>
+
+
+    </form>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

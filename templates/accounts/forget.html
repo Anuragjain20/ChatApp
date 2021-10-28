@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %}
+<!-- Login Form -->
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card shadow">
+                <div class="card-title text-center border-bottom">
+                    <h2 class="p-3">Forget Password</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+                            <label class="form-label">Email id</label>
+                            <input name="email" type="text" class="form-control form-control-lg" placeholder="example@user.com" />
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn text-light main-bg">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
